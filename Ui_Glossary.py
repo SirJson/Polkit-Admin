@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 
+# -*- coding: utf-8 -*-
 # Form implementation generated from reading ui file 'Glossary.ui'
 #
 # Created: Tue Mar 26 14:50:55 2013

@@ -1,5 +1,19 @@
-#! /usr/bin/python2
+#! /usr/bin/python3
 
+# -*- coding: utf-8 -*-
+#
+# Polkit Admin
+# Extended Polkit Explorer with editing capabilities so you can set the Policy for each Action without using Text Editors. 
+#
+# v1.1
+#
+# Release date : ????????
+#                yyyymmdd
+#
+# Author: Raffael Zica <raffael@pixeltastic.de>
+#
+# #################################################
+#
 # Polkit Explorer
 # View/Explore all entries within a Linux Polkit XML file
 #
@@ -30,18 +44,48 @@ from Ui_About import Ui_About
 from Ui_Glossary import Ui_Glossary
 from lxml import etree as ET
 import sys
-reload(sys)
-sys.setdefaultencoding( "utf-8" )
+
 
 class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
     def __init__(self, parent=None):
-       super(PolkitExplorer, self).__init__(parent)
-       self.setupUi(self)
-    
+        self.permissionList = ["","no", "yes", "auth_self",
+                               "auth_admin", "auth_self_keep", "auth_admin_keep"]
+        self.currentFile = None
+        super(PolkitExplorer, self).__init__(parent)
+        self.setupUi(self)
+        self.populatePermissionEdits()
+
     @QtCore.pyqtSlot()
+
+    def populatePermissionEdits(self):
+        for item in self.permissionList:
+            self.allowActiveEdit.addItem(str(item))
+            self.allowInactiveEdit.addItem(str(item))
+            self.allowAnyEdit.addItem(str(item))
+    
+    def resetPermissionSelector(self):
+        self.allowInactiveEdit.setCurrentIndex(0)
+        self.allowActiveEdit.setCurrentIndex(0)
+        self.allowAnyEdit.setCurrentIndex(0)
+
+    def nameToPermissionIdx(self, name: str) -> str:
+        try:
+            return self.permissionList.index(name)
+        except ValueError:
+            return 0
+
+    def onPolicyChanged(self):
+        if self.currentFile is None:
+            return
+        else:
+            print(self.allowInactiveEdit.currentIndex())
+            print(self.allowActiveEdit.currentIndex())
+            print(self.allowAnyEdit.currentIndex())
 
     # User wants to open a file...
     def fileOpen(self):
+        self.currentFile = None
+        self.resetPermissionSelector()
         self.openActionFileDialog()
 
     # User wants to quit...
@@ -64,17 +108,19 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
     # Display file open dialog at the correct dir and with a filename filter for the policy files
     # then fill the Actions Combobox
     def openActionFileDialog(self):
-        fname, _filter = QtWidgets.QFileDialog.getOpenFileName(self, 'Open Polkit file...', '/usr/share/polkit-1/actions/', '*.policy')
+        fname, _filter = QtWidgets.QFileDialog.getOpenFileName(
+            self, 'Open Polkit file...', '/usr/share/polkit-1/actions/', '*.policy')
         if fname != "":
-            self.parsePolKitFile(str(fname))
+            self.currentFile = str(fname)
+            self.parsePolKitFile(self.currentFile)
 
-    # fill Actions ComboBox with list of all actions for specified Policy File. 
+    # fill Actions ComboBox with list of all actions for specified Policy File.
     def parsePolKitFile(self, fname):
 
         # Display the filename of the policy kit file
         self.policyKitFileName.setText(fname)
 
-        #Read the selected file and create the lxml tree object...
+        # Read the selected file and create the lxml tree object...
         parser = ET.XMLParser(encoding='utf-8')
         self.tree = ET.parse(fname, parser)
         self.root = self.tree.getroot()
@@ -82,13 +128,13 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
         self.actionComboBox.clear()
         self.actionsCount = 0
 
-        #fill the Actions combo box list with all actions from the loaded polkit file...
+        # fill the Actions combo box list with all actions from the loaded polkit file...
         for actionslist in self.root.iter('action'):
             actname = actionslist.get('id')
-            self.actionComboBox.addItem(unicode(actname))
+            self.actionComboBox.addItem(str(actname))
             self.actionsCount = self.actionsCount + 1
             self.actionsCounterDisplay.display(self.actionsCount)
-    
+
     def parseAction(self, actionID):
         description = None
         for actionslist in self.root.iter('action'):
@@ -100,11 +146,11 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
                     self.inSet = 0
                     self.actSet = 0
                     for defaults in action.findall("./defaults/"):
-                        self.fillDefaultsTable(defaults.tag, defaults.text)
+                        self.loadPermission(defaults.tag, defaults.text)
                 # Get the desired Description of the Action...
                 # Note: It's a complete PITA... some .policy XML files just have Descriptions with
                 #       no xml:lang attributes, and some have, and one file has a Description element
-                #       tag of "_description"! Yep, a complete PITA, all right... 
+                #       tag of "_description"! Yep, a complete PITA, all right...
                 for d in self.root.xpath('.//action[@id = $policy]/description[@xml:lang = $lang]', policy=policy, lang="en_GB"):
                     description = d.text
                 if description is not None:
@@ -120,24 +166,18 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
                         self.polkitActionDescription.setText(description)
                     else:
                         # Booooo!
-                        self.polkitActionDescription.setText("No description found - how helpfull!")
+                        self.polkitActionDescription.setText(
+                            "No description found - how helpfull!")
 
-    def fillDefaultsTable(self, defaultTag, defaultText):
+    def loadPermission(self, defaultTag, defaultText: str):
+        permission = self.nameToPermissionIdx(defaultText)
         if defaultTag == "allow_any":
-            self.currentAllowAnyLabel.setText(defaultText)
-            self.anySet = 1
+            self.allowAnyEdit.setCurrentIndex(permission)
         elif defaultTag == "allow_inactive":
-            self.currentAllowInactiveLabel.setText(defaultText)
-            self.inSet = 1
+            self.allowInactiveEdit.setCurrentIndex(permission)
         elif defaultTag == "allow_active":
-            self.currentAllowActiveLabel.setText(defaultText)
-            self.actSet =1
-        if self.anySet == 0:
-            self.currentAllowAnyLabel.setText("")
-        if self.inSet == 0:
-            self.currentAllowInactiveLabel.setText("")
-        if self.actSet == 0:
-            self.currentAllowActiveLabel.setText("")
+            self.allowActiveEdit.setCurrentIndex(permission)
+
 
 class aboutPolkitExplorer(QtWidgets.QDialog, Ui_About):
     def __init__(self, parent=None):
@@ -148,9 +188,10 @@ class aboutPolkitExplorer(QtWidgets.QDialog, Ui_About):
     def aboutClose(self):
         self.close()
 
+
 class glossaryPolkitExplorer(QtWidgets.QDialog, Ui_Glossary):
     def __init__(self, parent=None):
-        QtWidgets.QDialog.__init__(self,parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.glossaryDialog = Ui_Glossary()
         self.setupUi(self)
 
@@ -163,4 +204,7 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = PolkitExplorer()
     window.show()
-    sys.exit(app.exec_())
+    try:
+        app.exec_()
+    except SystemExit as state:
+        sys.exit(state.code)
