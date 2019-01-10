@@ -1,8 +1,13 @@
-Polkit Explorer
+Polkit Admin
 ---------------
 
-Polkit Explorer reads in a Polkit .policy file, parses its XML contents, and
+**WIP! See admin branch**
+
+Also sick of editing hundereds of XML Files?
+
+Polkit Admin reads in a Polkit .policy file, parses its XML contents, and
 presents the information it contains, on a more human-readable GUI window.
+After selecting a policy File you can also modify the information shown. This makes setting up Polkit a lot easier.
 
 Polkit policies define what the default permissions users are given to perform
 certain tasks on their systems, for example, can a user eject a disk. These
@@ -10,21 +15,21 @@ permissions are granted or denied depending on if a user is logged in locally
 (Active) , logged in remotely (Inactive), or just plain logged in.
 
 This utility is intended to give you an insight into how your system is
-configured by default.
+configured by default and change the settings you don't like
 
-Written in Python using the QT5 library.
+Ported over to Python 3 and the QT5 library.
 
 Requires
 --------
-    python2
-    python2-qt5
-    python2-lxml
+    python3
+    python3-qt5
+    python3-lxml
     Qt libraries
 
 Running
 -------
 
-To run, simply change into the PolkitExplorer directory and type ./polkitex.py
+To run, simply change into the PolkitAdmin directory and type ./polkitex.py
 
 Menus
 -----
@@ -38,14 +43,8 @@ Help--->About brings up the About window.
 Help--->Glossary brings up a window explaining the meanings of the information
         displayed.
         
-More details at http://scarygliders.net/2013/03/26/polkit-explorer-v1-0-released/
 
-Tested on Debian and works. For other distributions you may have to browse to a
-different directory where that particular distribution keeps its Polkit .policy
-files.
-
-Send patches, bug reports either to the GitHub repository and/or my website at
-http://scarygliders.net 
+This is being tested on Arch Linux and Ubuntu.
 
 Files
 -----
@@ -70,10 +69,3 @@ normal (compiled python files).
 
 I hope this proves useful to someone.
 
-I intend to create a spin-off utility which will enable the creation/editing of
-policies, at a later date.
-
-Enjoy ;)
-
-Kevin Cave
-kevin@scarygliders.net
