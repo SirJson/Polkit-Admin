@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 #
 # Polkit Admin
-# Extended Polkit Explorer with editing capabilities so you can set the Policy for each Action without using Text Editors. 
+# Extended Polkit Explorer with editing capabilities so you can set the Policy for each Action without using Text Editors.
 #
 # v1.1
 #
@@ -39,16 +39,16 @@
 #
 
 from PyQt5 import QtCore, QtWidgets
-from Ui_polkitex import Ui_PolkitExplorer
+from Ui_polkitex import Ui_PolkitAdmin
 from Ui_About import Ui_About
 from Ui_Glossary import Ui_Glossary
 from lxml import etree as ET
 import sys
 
 
-class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
+class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitAdmin):
     def __init__(self, parent=None):
-        self.permissionList = ["","no", "yes", "auth_self",
+        self.permissionList = ["", "no", "yes", "auth_self",
                                "auth_admin", "auth_self_keep", "auth_admin_keep"]
         self.currentFile = None
         super(PolkitExplorer, self).__init__(parent)
@@ -56,13 +56,12 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
         self.populatePermissionEdits()
 
     @QtCore.pyqtSlot()
-
     def populatePermissionEdits(self):
         for item in self.permissionList:
             self.allowActiveEdit.addItem(str(item))
             self.allowInactiveEdit.addItem(str(item))
             self.allowAnyEdit.addItem(str(item))
-    
+
     def resetPermissionSelector(self):
         self.allowInactiveEdit.setCurrentIndex(0)
         self.allowActiveEdit.setCurrentIndex(0)
@@ -74,6 +73,7 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
         except ValueError:
             return 0
 
+    # TODO: Delete me!
     def onPolicyChanged(self):
         if self.currentFile is None:
             return
@@ -88,6 +88,14 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
         self.resetPermissionSelector()
         self.openActionFileDialog()
 
+    # TODO: Save back to the real policy file. That means you need adminstrator rights
+    # TODO: All actions should be set before writing
+    # TODO: Implement User feedback
+    def fileSave(self):
+        self.setActionPermission(
+            self.actionID, "allow_any", self.allowAnyEdit.currentText())
+        self.tree.write('test2.xml')
+
     # User wants to quit...
     def fileQuit(self):
         QtWidgets.qApp.quit()
@@ -97,10 +105,12 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
         self.actionID = str(self.actionComboBox.currentText())
         self.parseAction(self.actionID)
 
+    # TODO: Do we need this about thing?
     def fileAbout(self):
         self.aboutDialog = aboutPolkitExplorer()
         self.aboutDialog.exec_()
 
+    # TODO: Reintegrate this somehow. Documentation is helpful for admins
     def helpGlossary(self):
         self.glossaryDialog = glossaryPolkitExplorer()
         self.glossaryDialog.exec_()
@@ -116,7 +126,6 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
 
     # fill Actions ComboBox with list of all actions for specified Policy File.
     def parsePolKitFile(self, fname):
-
         # Display the filename of the policy kit file
         self.policyKitFileName.setText(fname)
 
@@ -133,7 +142,18 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
             actname = actionslist.get('id')
             self.actionComboBox.addItem(str(actname))
             self.actionsCount = self.actionsCount + 1
-            self.actionsCounterDisplay.display(self.actionsCount)
+        self.statusBar.showMessage(f'Actions found: {str(self.actionsCount)}')
+
+    # TODO: If the action was missing in the first place we should create the element and set the value
+    # TODO: Do we really need to iterate over everything again to find the action?
+    def setActionPermission(self, actionName, permission, level):
+        for actionslist in self.root.iter('action'):
+            policy = actionslist.get('id')
+            if policy == actionName:
+                for action in self.root.xpath('.//action[@id = $policy]', policy=actionName):
+                    permission = action.find(f"./defaults/{permission}")
+                    permission.text = level
+                    return
 
     def parseAction(self, actionID):
         description = None
@@ -142,6 +162,7 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitExplorer):
             if policy == actionID:
                 # Get the default permissions for the selected Action...
                 for action in self.root.xpath('.//action[@id = $policy]', policy=actionID):
+                    # TODO: Cleanup that mess. A lot of dead code here
                     self.anySet = 0
                     self.inSet = 0
                     self.actSet = 0

@@ -1,48 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <author>Kevin Cave, Raffael Zica</author>
- <class>PolkitExplorer</class>
- <widget class="QMainWindow" name="PolkitExplorer">
-  <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
-  </property>
+ <class>PolkitAdmin</class>
+ <widget class="QMainWindow" name="PolkitAdmin">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>350</height>
+    <width>1025</width>
+    <height>320</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-    <horstretch>1</horstretch>
-    <verstretch>1</verstretch>
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
    </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1024</width>
-    <height>350</height>
+    <width>1025</width>
+    <height>320</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1920</width>
-    <height>1080</height>
+    <width>1025</width>
+    <height>320</height>
    </size>
   </property>
-  <property name="sizeIncrement">
-   <size>
-    <width>32</width>
-    <height>32</height>
-   </size>
+  <property name="font">
+   <font>
+    <family>Roboto</family>
+   </font>
   </property>
-  <property name="baseSize">
-   <size>
-    <width>1024</width>
-    <height>350</height>
-   </size>
+  <property name="focusPolicy">
+   <enum>Qt::ClickFocus</enum>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
    <string>Polkit Admin</string>
@@ -50,511 +46,589 @@
   <property name="statusTip">
    <string/>
   </property>
-  <property name="tabShape">
-   <enum>QTabWidget::Rounded</enum>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonFollowStyle</enum>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="polkitActionDescription">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>1</horstretch>
+     <verstretch>1</verstretch>
+    </sizepolicy>
+   </property>
+   <widget class="QFrame" name="aframe">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>140</y>
-      <width>731</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Description of the Action as entered in the Policy file loaded. If no description is found this will tell you that fact.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textFormat">
-     <enum>Qt::PlainText</enum>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-    <property name="textInteractionFlags">
-     <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-    </property>
-   </widget>
-   <widget class="QFrame" name="frame">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>190</y>
-      <width>641</width>
-      <height>101</height>
+      <x>10</x>
+      <y>10</y>
+      <width>1000</width>
+      <height>42</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>1</horstretch>
-      <verstretch>1</verstretch>
+     <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>32</height>
+     </size>
+    </property>
     <property name="frameShape">
-     <enum>QFrame::HLine</enum>
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
+    <property name="midLineWidth">
+     <number>0</number>
+    </property>
+    <layout class="QHBoxLayout" name="currentPolicy" stretch="0,0,1,0,0,0">
+     <property name="spacing">
+      <number>2</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMaximumSize</enum>
+     </property>
+     <property name="leftMargin">
+      <number>2</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>2</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>115</width>
+         <height>36</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
+       <property name="text">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Roboto'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;right&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:4px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Current Policy&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <property name="indent">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>12</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="policyKitFileName">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+         <horstretch>1</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>777</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The full pathname of the currently opened Polkit policy file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="lineWidth">
+        <number>1</number>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Please open a policy file...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+       <property name="margin">
+        <number>8</number>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>12</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="openBnt">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Open</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>8</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QFrame" name="cframe">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>140</y>
+      <width>1000</width>
+      <height>42</height>
+     </rect>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Plain</enum>
     </property>
     <property name="lineWidth">
-     <number>1</number>
-    </property>
-    <property name="midLineWidth">
      <number>0</number>
     </property>
-    <widget class="QLabel" name="currentallowanylabel">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>20</y>
-       <width>131</width>
-       <height>21</height>
-      </rect>
+    <layout class="QHBoxLayout" name="descriptionBar">
+     <property name="spacing">
+      <number>2</number>
      </property>
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMaximumSize</enum>
      </property>
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If set to &amp;quot;yes&amp;quot; will give any user permission to perform the action as described in the Description above. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <property name="leftMargin">
+      <number>2</number>
      </property>
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <property name="text">
-      <string>Allow Any</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="currentallowanylabel_2">
-     <property name="geometry">
-      <rect>
-       <x>220</x>
-       <y>20</y>
-       <width>161</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;Inactive&amp;quot; users are ones who are not directly logged into the system's console. This includes anyone who is logged in remotely, whether it be via ssh, telnet, or even RDP.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <property name="text">
-      <string>Allow Inactive</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="currentallowanylabel_3">
-     <property name="geometry">
-      <rect>
-       <x>440</x>
-       <y>20</y>
-       <width>151</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;Active&amp;quot; users are ones who are directly logged into a system's console, via a locally connected terminal. Users directly logged into a GUI at the system console, for example.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>1</number>
-     </property>
-     <property name="midLineWidth">
+     <property name="topMargin">
       <number>0</number>
      </property>
-     <property name="text">
-      <string>Allow Active</string>
+     <property name="rightMargin">
+      <number>2</number>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="allowAnyEdit">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>60</y>
-       <width>151</width>
-       <height>29</height>
-      </rect>
-     </property>
-     <property name="editable">
-      <bool>false</bool>
-     </property>
-     <property name="currentIndex">
-      <number>-1</number>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="allowInactiveEdit">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>60</y>
-       <width>181</width>
-       <height>29</height>
-      </rect>
-     </property>
-     <property name="editable">
-      <bool>false</bool>
-     </property>
-     <property name="maxVisibleItems">
-      <number>10</number>
-     </property>
-     <property name="modelColumn">
+     <property name="bottomMargin">
       <number>0</number>
      </property>
-    </widget>
-    <widget class="QComboBox" name="allowActiveEdit">
-     <property name="geometry">
-      <rect>
-       <x>420</x>
-       <y>60</y>
-       <width>191</width>
-       <height>29</height>
-      </rect>
-     </property>
-     <property name="editable">
-      <bool>false</bool>
-     </property>
-     <property name="currentIndex">
-      <number>-1</number>
-     </property>
-     <property name="minimumContentsLength">
-      <number>0</number>
-     </property>
-     <property name="modelColumn">
-      <number>0</number>
-     </property>
-    </widget>
+     <item>
+      <widget class="QLabel" name="polkitActionLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>115</width>
+         <height>36</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
+       <property name="midLineWidth">
+        <number>0</number>
+       </property>
+       <property name="text">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Roboto'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;right&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:4px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Description&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <property name="indent">
+        <number>16</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>8</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="polkitActionDescription">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>69</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Description of the Action as entered in the Policy file loaded. If no description is found this will tell you that fact.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QFrame" name="bframe">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>140</y>
-      <width>121</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
-    <property name="text">
-     <string>Description</string>
-    </property>
-    <property name="indent">
-     <number>4</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
+      <y>70</y>
       <width>1001</width>
-      <height>61</height>
+      <height>54</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>Roboto</family>
-      <pointsize>11</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
-    <property name="text">
-     <string>Current Policy</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-    <property name="indent">
-     <number>4</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="policyKitFileName">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>20</y>
-      <width>731</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-      <weight>50</weight>
-      <italic>true</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The full pathname of the currently opened Polkit policy file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>32</height>
+     </size>
     </property>
     <property name="autoFillBackground">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="styleSheet">
      <string notr="true"/>
     </property>
     <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
+     <enum>QFrame::Panel</enum>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Plain</enum>
     </property>
     <property name="lineWidth">
-     <number>2</number>
-    </property>
-    <property name="text">
-     <string>Please open a policy file...</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-    <property name="textInteractionFlags">
-     <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="actionComboBox">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>90</y>
-      <width>731</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Drop-down list of all the actions within the policy file. Clicking on this will display the drop-down list, or you can use your scrollwheel to browse through them, too.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="polkitActionNameLabel_2">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>190</y>
-      <width>1001</width>
-      <height>108</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>1</horstretch>
-      <verstretch>1</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="sizeIncrement">
-     <size>
-      <width>32</width>
-      <height>32</height>
-     </size>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>18</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-      <underline>true</underline>
-     </font>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::WinPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
-    </property>
-    <property name="midLineWidth">
      <number>0</number>
     </property>
-    <property name="text">
-     <string>Policy Settings</string>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-    </property>
-    <property name="margin">
-     <number>4</number>
-    </property>
-    <property name="indent">
-     <number>4</number>
-    </property>
+    <layout class="QHBoxLayout" name="actionBar">
+     <property name="spacing">
+      <number>2</number>
+     </property>
+     <property name="leftMargin">
+      <number>2</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>2</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="actionSelLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>115</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
+       <property name="text">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Roboto'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;right&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:4px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Action&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <property name="indent">
+        <number>16</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>8</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>777</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="lineWidth">
+        <number>1</number>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QComboBox" name="actionComboBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Drop-down list of all the actions within the policy file. Clicking on this will display the drop-down list, or you can use your scrollwheel to browse through them, too.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <widget class="QLCDNumber" name="actionsCounterDisplay">
-    <property name="geometry">
-     <rect>
-      <x>870</x>
-      <y>110</y>
-      <width>131</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Displays the number of Actions within a Polkit policy file.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>870</x>
-      <y>90</y>
-      <width>131</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <property name="text">
-     <string># Actions</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="saveBnt">
-    <property name="geometry">
-     <rect>
-      <x>910</x>
-      <y>250</y>
-      <width>86</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Save</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="cancelBnt">
-    <property name="geometry">
-     <rect>
-      <x>810</x>
-      <y>250</y>
-      <width>86</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Reset</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
-      <width>121</width>
-      <height>31</height>
+      <y>200</y>
+      <width>1001</width>
+      <height>97</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
+    <property name="styleSheet">
+     <string notr="true">#frame {
+	border-top: 2px dotted rgb(211, 215, 207);
+}
+</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::NoFrame</enum>
@@ -562,94 +636,409 @@
     <property name="frameShadow">
      <enum>QFrame::Plain</enum>
     </property>
-    <property name="text">
-     <string>Action</string>
+    <property name="lineWidth">
+     <number>0</number>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-    <property name="indent">
-     <number>4</number>
-    </property>
+    <layout class="QGridLayout" name="policyEditor">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item row="3" column="1">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>8</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="3" column="2">
+      <widget class="QPushButton" name="saveBnt">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Save</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3">
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>8</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="0" rowspan="4">
+      <widget class="QFrame" name="policySelector">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>1</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+        </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
+       <property name="midLineWidth">
+        <number>0</number>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <property name="horizontalSpacing">
+         <number>8</number>
+        </property>
+        <property name="verticalSpacing">
+         <number>0</number>
+        </property>
+        <item row="0" column="3">
+         <widget class="QFrame" name="activeBox">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Panel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <property name="leftMargin">
+            <number>18</number>
+           </property>
+           <property name="topMargin">
+            <number>18</number>
+           </property>
+           <property name="rightMargin">
+            <number>18</number>
+           </property>
+           <property name="bottomMargin">
+            <number>18</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="allowactive">
+             <property name="font">
+              <font>
+               <family>Roboto</family>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>false</underline>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;Active&amp;quot; users are ones who are directly logged into a system's console, via a locally connected terminal. Users directly logged into a GUI at the system console, for example.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="lineWidth">
+              <number>1</number>
+             </property>
+             <property name="midLineWidth">
+              <number>0</number>
+             </property>
+             <property name="text">
+              <string>Allow Active</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignTop</set>
+             </property>
+             <property name="margin">
+              <number>4</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="allowActiveEdit">
+             <property name="editable">
+              <bool>false</bool>
+             </property>
+             <property name="currentIndex">
+              <number>-1</number>
+             </property>
+             <property name="minimumContentsLength">
+              <number>0</number>
+             </property>
+             <property name="modelColumn">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QFrame" name="anyBox">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <property name="leftMargin">
+            <number>18</number>
+           </property>
+           <property name="topMargin">
+            <number>18</number>
+           </property>
+           <property name="rightMargin">
+            <number>18</number>
+           </property>
+           <property name="bottomMargin">
+            <number>18</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="allowanylabel">
+             <property name="font">
+              <font>
+               <family>Roboto</family>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>false</underline>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If set to &amp;quot;yes&amp;quot; will give any user permission to perform the action as described in the Description above. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <property name="text">
+              <string>Allow Any</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignTop</set>
+             </property>
+             <property name="margin">
+              <number>4</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="allowAnyEdit">
+             <property name="editable">
+              <bool>false</bool>
+             </property>
+             <property name="currentIndex">
+              <number>-1</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QFrame" name="inactiveBox">
+          <property name="frameShape">
+           <enum>QFrame::Panel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <property name="leftMargin">
+            <number>18</number>
+           </property>
+           <property name="topMargin">
+            <number>18</number>
+           </property>
+           <property name="rightMargin">
+            <number>18</number>
+           </property>
+           <property name="bottomMargin">
+            <number>18</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="allowinactivatelabel">
+             <property name="font">
+              <font>
+               <family>Roboto</family>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>false</underline>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;Inactive&amp;quot; users are ones who are not directly logged into the system's console. This includes anyone who is logged in remotely, whether it be via ssh, telnet, or even RDP.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="lineWidth">
+              <number>0</number>
+             </property>
+             <property name="text">
+              <string>Allow Inactive</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignTop</set>
+             </property>
+             <property name="margin">
+              <number>4</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="allowInactiveEdit">
+             <property name="editable">
+              <bool>false</bool>
+             </property>
+             <property name="maxVisibleItems">
+              <number>10</number>
+             </property>
+             <property name="modelColumn">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="Line" name="line_2">
+          <property name="styleSheet">
+           <string notr="true">Line {
+	border 2px solid;
+}</string>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="cancelBnt">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::DefaultContextMenu</enum>
+       </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
+       <property name="toolTipDuration">
+        <number>-1</number>
+       </property>
+       <property name="text">
+        <string>Reset</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <widget class="QPushButton" name="openBnt">
-    <property name="geometry">
-     <rect>
-      <x>870</x>
-      <y>20</y>
-      <width>131</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Open</string>
-    </property>
-   </widget>
-   <zorder>polkitActionNameLabel_2</zorder>
+   <zorder>cframe</zorder>
+   <zorder>bframe</zorder>
    <zorder>frame</zorder>
-   <zorder>label_3</zorder>
-   <zorder>label</zorder>
-   <zorder>label_2</zorder>
-   <zorder>policyKitFileName</zorder>
-   <zorder>actionsCounterDisplay</zorder>
-   <zorder>actionComboBox</zorder>
-   <zorder>polkitActionDescription</zorder>
-   <zorder>saveBnt</zorder>
-   <zorder>cancelBnt</zorder>
-   <zorder>label_4</zorder>
-   <zorder>openBnt</zorder>
+   <zorder>aframe</zorder>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1024</width>
-     <height>26</height>
-    </rect>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="statusTip">
+    <string/>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>11</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
+   <property name="sizeGripEnabled">
+    <bool>false</bool>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="title">
-     <string>&amp;File</string>
-    </property>
-    <addaction name="actionOpen"/>
-    <addaction name="separator"/>
-    <addaction name="actionQuit"/>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="title">
-     <string>&amp;Help</string>
-    </property>
-    <addaction name="separator"/>
-    <addaction name="actionAbout"/>
-    <addaction name="separator"/>
-    <addaction name="actionShow_Glossary"/>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuHelp"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
    <property name="text">
     <string>&amp;Open</string>
@@ -688,30 +1077,14 @@
  <resources/>
  <connections>
   <connection>
-   <sender>actionComboBox</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>PolkitExplorer</receiver>
-   <slot>actionComboBoxChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>333</x>
-     <y>273</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>794</x>
-     <y>201</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionOpen</sender>
-   <signal>triggered()</signal>
-   <receiver>PolkitExplorer</receiver>
+   <sender>openBnt</sender>
+   <signal>clicked()</signal>
+   <receiver>PolkitAdmin</receiver>
    <slot>fileOpen()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
+     <x>963</x>
+     <y>30</y>
     </hint>
     <hint type="destinationlabel">
      <x>452</x>
@@ -722,7 +1095,7 @@
   <connection>
    <sender>actionQuit</sender>
    <signal>triggered()</signal>
-   <receiver>PolkitExplorer</receiver>
+   <receiver>PolkitAdmin</receiver>
    <slot>fileQuit()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -738,7 +1111,7 @@
   <connection>
    <sender>actionAbout</sender>
    <signal>triggered()</signal>
-   <receiver>PolkitExplorer</receiver>
+   <receiver>PolkitAdmin</receiver>
    <slot>fileAbout()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -754,7 +1127,7 @@
   <connection>
    <sender>actionShow_Glossary</sender>
    <signal>triggered()</signal>
-   <receiver>PolkitExplorer</receiver>
+   <receiver>PolkitAdmin</receiver>
    <slot>helpGlossary()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -768,66 +1141,34 @@
    </hints>
   </connection>
   <connection>
-   <sender>allowActiveEdit</sender>
-   <signal>activated(int)</signal>
-   <receiver>PolkitExplorer</receiver>
-   <slot>onPolicyChanged()</slot>
+   <sender>actionComboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>PolkitAdmin</receiver>
+   <slot>actionComboBoxChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>675</x>
-     <y>461</y>
+     <x>573</x>
+     <y>96</y>
     </hint>
     <hint type="destinationlabel">
-     <x>454</x>
-     <y>347</y>
+     <x>512</x>
+     <y>159</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>allowInactiveEdit</sender>
-   <signal>activated(int)</signal>
-   <receiver>PolkitExplorer</receiver>
-   <slot>onPolicyChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>460</x>
-     <y>461</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>454</x>
-     <y>347</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>allowAnyEdit</sender>
-   <signal>activated(int)</signal>
-   <receiver>PolkitExplorer</receiver>
-   <slot>onPolicyChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>255</x>
-     <y>461</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>454</x>
-     <y>347</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>openBnt</sender>
+   <sender>saveBnt</sender>
    <signal>clicked()</signal>
-   <receiver>PolkitExplorer</receiver>
-   <slot>fileOpen()</slot>
+   <receiver>PolkitAdmin</receiver>
+   <slot>fileSave()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>935</x>
-     <y>66</y>
+     <x>960</x>
+     <y>279</y>
     </hint>
     <hint type="destinationlabel">
-     <x>511</x>
-     <y>174</y>
+     <x>512</x>
+     <y>159</y>
     </hint>
    </hints>
   </connection>
