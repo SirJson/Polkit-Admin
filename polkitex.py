@@ -73,7 +73,7 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitAdmin):
         except ValueError:
             return 0
 
-    # TODO: Delete me!
+    # TODO: Maybe still useful...
     def onPolicyChanged(self):
         if self.currentFile is None:
             return
@@ -94,7 +94,12 @@ class PolkitExplorer(QtWidgets.QMainWindow, Ui_PolkitAdmin):
     def fileSave(self):
         self.setActionPermission(
             self.actionID, "allow_any", self.allowAnyEdit.currentText())
-        self.tree.write('test2.xml')
+        self.setActionPermission(
+            self.actionID, "allow_active", self.allowActiveEdit.currentText())
+        self.setActionPermission(
+            self.actionID, "allow_inactive", self.allowInactiveEdit.currentText())
+        self.currentFile
+        self.tree.write(self.currentFile)
 
     # User wants to quit...
     def fileQuit(self):
@@ -221,11 +226,17 @@ class glossaryPolkitExplorer(QtWidgets.QDialog, Ui_Glossary):
 
 
 if __name__ == '__main__':
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    window = PolkitExplorer()
-    window.show()
-    try:
-        app.exec_()
-    except SystemExit as state:
-        sys.exit(state.code)
+    import os
+    if os.geteuid() == 0:
+        import sys
+        app = QtWidgets.QApplication(sys.argv)
+        window = PolkitExplorer()
+        window.show()
+        try:
+            app.exec_()
+        except SystemExit as state:
+            sys.exit(state.code)
+    else:
+        import subprocess
+        current_script = os.path.realpath(__file__)
+        subprocess.call(['sudo', 'python3', current_script])
